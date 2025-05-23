@@ -1,25 +1,82 @@
-import React, {useState, useContext} from 'react';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import File from '../../components/File/File';
+import { useState } from "react";
 
-const Home = () => {
+export default function GreenwashingScanner() {
+    const [text, setText] = useState("");
+    const [file, setFile] = useState(null);
+    const [highlights, setHighlights] = useState([]);
+
+    const handleAnalyze = async () => {
+        const formData = new FormData();
+
+        if (file) {
+            formData.append("file", file);
+        } else if (text.trim()) {
+            const blob = new Blob([text], { type: "text/plain" });
+            formData.append("file", blob, "input.txt");
+        } else {
+            alert("Please paste text or upload a PDF.");
+            return;
+        }
+
+        const res = await fetch("http://localhost:8000/upload", {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await res.json();
+        setHighlights(data.highlights || []);
+    };
+
     return (
-        <div className="home h-[calc(100vh-40px)] flex flex-col m-[20px] pt-[80px]">
-            <div className="top flex justify-between h-2/3 mb-[10px] gap-[10px]">
-                <File />
-                <div className="right w-3/5">
-                    <Card className="h-full"></Card>
-                </div>
-            </div>
-        </div>
-    )
-}
+        <div className="mt-[100px] min-h-screen bg-[#F8FFF8] text-[#3D4A3D] font-sans">
+            <main className="max-w-6xl mx-auto p-8 flex flex-col lg:flex-row gap-8">
+                <section className="bg-white p-6 rounded-lg shadow-lg flex-1 flex flex-col gap-6">
+                    <h2 className="text-2xl font-medium">Submit Content</h2>
 
-export default Home
+                    <div className="flex flex-col gap-2">
+                        <label className="font-medium text-[#3D4A3D]">Paste Text:</label>
+                        <textarea
+                            rows={10}
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            className="border border-gray-300 rounded-md p-3 resize-y focus:outline-none focus:ring-2 focus:ring-green-400"
+                            placeholder="Enter your text here..."
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="font-medium text-[#3D4A3D]">Upload PDF:</label>
+                        <input
+                            type="file"
+                            accept="application/pdf"
+                            onChange={(e) => setFile(e.target.files[0])}
+                            className="text-gray-600"
+                        />
+                    </div>
+
+                    <button
+                        onClick={handleAnalyze}
+                        className="bg-[#33DB5B] text-white px-6 py-2 rounded-md text-lg font-medium hover:bg-[#28b34a] active:scale-95 transition"
+                    >
+                        Analyze
+                    </button>
+                </section>
+
+                <section className="bg-white p-6 rounded-lg shadow-lg flex-1 flex flex-col gap-6">
+                    <h2 className="text-2xl font-medium">Detected Greenwashing</h2>
+
+                    <ul className="space-y-2 max-h-72 overflow-y-auto">
+                        {highlights.map((item, idx) => (
+                            <li
+                                key={idx}
+                                className="bg-red-100 border-l-4 border-red-600 p-3 rounded"
+                            >
+                                {item.text}
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            </main>
+        </div>
+    );
+}
