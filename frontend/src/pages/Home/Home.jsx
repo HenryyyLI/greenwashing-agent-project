@@ -7,7 +7,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import MessageContainer from '../../components/Message/MessageContainer';
 import File from '../../components/File/File';
 
 const Home = () => {
@@ -19,7 +18,6 @@ const Home = () => {
                     <Card className="h-full"></Card>
                 </div>
             </div>
-            <MessageContainer />
         </div>
     )
 }

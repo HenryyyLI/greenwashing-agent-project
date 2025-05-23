@@ -63,16 +63,20 @@ class GreenwashingAnalyzer:
                 {"role": "system", "content": strict_format_instruction},
                 {"role": "user", "content": text}
             ],
-            response_format={"type": "json_object"},
             temperature=0.2
         )
-        
-        try:
-            result = json.loads(response.choices[0].message.content)
-            return {"highlights": result}
-        except json.JSONDecodeError:
-            raise ValueError("API response was not valid JSON")
 
+        raw_response = response.choices[0].message.content
+        # print("OpenAI Raw Response:", raw_response)
+
+        try:
+            result = json.loads(raw_response)
+            return {"status": "success", "data": result}
+        except Exception as e:
+            print("Error parsing OpenAI response:", e)
+            raise ValueError(f"API response was not valid JSON: {repr(raw_response)}")
+
+# TEST CODE
 def main():
     try:
         input_text = sys.argv[1] if len(sys.argv) > 1 else ""

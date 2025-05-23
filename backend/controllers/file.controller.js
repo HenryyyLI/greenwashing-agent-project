@@ -1,6 +1,3 @@
-import fetch from "node-fetch";
-import FormData from "form-data";
-
 export const sendFile = async (req, res) => {
     try {
         if (!req.file) {
