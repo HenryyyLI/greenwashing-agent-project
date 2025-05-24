@@ -1,17 +1,13 @@
 import React from "react";
-import useUploadFile from '../../hooks/useUploadFiile';
-
 import { useDropzone } from 'react-dropzone';
 
-const File = () => {
-    const { loading, uploadFiles } = useUploadFile();
-
-    const onDrop = async (acceptedFiles) => {
-        await uploadFiles(acceptedFiles);
-    };
-
+const FileZone = ({ onFileDrop, loading }) => {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
+        onDrop: async (acceptedFiles) => {
+            if (acceptedFiles.length > 0) {
+                await onFileDrop(acceptedFiles[0]);
+            }
+        },
         accept: {
             'application/pdf': ['.pdf'],
             'text/plain': ['.txt'],
@@ -23,7 +19,7 @@ const File = () => {
     });
 
     return (
-        <div className="left w-2/5">
+        <div>
             <div
                 {...getRootProps()}
                 className={`flex flex-col h-full border-2 border-dashed rounded-md p-8 cursor-pointer items-center justify-center 
@@ -43,7 +39,7 @@ const File = () => {
                                     <>
                                         <p className="text-gray-600">Drag and drop a file here, or click to select</p>
                                         <p className="text-sm text-gray-400 mt-1">
-                                            Supports: PDF, Word (.doc/.docx), Text
+                                            Supports: PDF (.pdf), Word (.doc), Text (.txt)
                                         </p>
                                     </>
                                 )}
@@ -54,4 +50,4 @@ const File = () => {
     );
 };
 
-export default File
+export default FileZone

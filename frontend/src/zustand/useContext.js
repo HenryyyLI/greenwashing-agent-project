@@ -1,11 +1,14 @@
 import { create } from 'zustand';
 
 const useContext = create((set) => ({
-    selectedConversation: null,
-    setSelectedConversation: (selectedConversation) => set({ selectedConversation }),
+    data: null,
+    setData: (text) => set({ data: text }),
 
-    fileResponse: null,
-    setFileResponse: (text) => set({ fileResponse: text }),
+    newData: null,
+    setNewData: (text) => set({ newData: text }),
+
+    history: null,
+    setHistory: (text) => set({ history: text }),
 }));
 
 export default useContext;

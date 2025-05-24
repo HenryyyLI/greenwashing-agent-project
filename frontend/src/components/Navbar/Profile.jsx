@@ -11,7 +11,7 @@ const Profile = () => {
             {authUser ? (
                 <div className='flex gap-3 items-center mr-5'>
                     <img src={authUser.profilePic} alt='user avatar' className="w-10 h-10 rounded-full" />
-                    <p className='font-bold text-black'>{authUser.fullName}</p>
+                    <p className='font-bold text-white'>{authUser.fullName}</p>
                     <div>
                         <LogoutButton />
                     </div>

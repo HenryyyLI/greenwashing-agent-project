@@ -27,7 +27,14 @@ const fileSchema = new mongoose.Schema({
     stats: {
         redCount: Number,
         yellowCount: Number
-    }
+    },
+    revised: {
+        type: String
+    },
+    changedParts: [{
+        text: String,
+        original: String
+    }]
     // createAt, updateAt
 }, { timestamps: true });
 

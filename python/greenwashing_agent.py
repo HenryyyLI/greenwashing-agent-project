@@ -76,6 +76,37 @@ class GreenwashingAnalyzer:
             print("Error parsing OpenAI response:", e)
             raise ValueError(f"API response was not valid JSON: {repr(raw_response)}")
 
+    def revise_text(self, original_text, flagged_claims):
+        revision_prompt = f"""
+            You are a sustainability communication editor. The following content contains greenwashing issues:
+
+            Original Text:
+            \"\"\"{original_text}\"\"\"
+
+            Flagged Issues: {json.dumps(flagged_claims, indent=2)}
+
+            TASK:
+            Revise the original text to address the greenwashing concerns:
+            - Rewrite or remove problematic claims
+            - Maintain the general intent and clarity of the original text
+            - Ensure all claims are evidence-based or clearly qualified
+
+            ONLY return the revised version of the full text. Do not add any explanations or annotations.
+        """
+
+        response = self.client.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {"role": "system", "content": "You are an expert in sustainable communication and green marketing."},
+                {"role": "user", "content": revision_prompt}
+            ],
+            temperature=0.2
+        )
+
+        raw_response = response.choices[0].message.content.strip()
+        # print("OpenAI Raw Response:", raw_response)
+        return raw_response
+
 # TEST CODE
 def main():
     try:
