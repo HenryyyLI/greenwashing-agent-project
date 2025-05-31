@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "server": "node backend/server.js"
+    "server": "nodemon backend/server.js",
+    "start": "node backend/server.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend && pip install -r requirements.txt",
+    "python": "uvicorn main:app --host 0.0.0.0 --port 8000 --app-dir python",
+    "dev": "concurrently \"npm run python\" \"npm run start\""
   },
   "type": "module",
   "keywords": [],
@@ -15,6 +19,7 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "http-proxy-middleware": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.0",
     "multer": "^2.0.0",
@@ -22,5 +27,8 @@
     "python-shell": "^5.0.0",
     "react-hot-toast": "^2.5.2",
     "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

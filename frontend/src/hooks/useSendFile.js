@@ -24,7 +24,7 @@ const useAnalyze = () => {
                 formData.append("file", blob, "input.txt");
             }
 
-            const res = await fetch("http://localhost:8000/upload", {
+            const res = await fetch("/fastapi/upload", {
                 method: "POST",
                 body: formData,
             });
@@ -41,7 +41,7 @@ const useAnalyze = () => {
             // console.log(data);
             setData(data);
 
-            const resNew = await fetch("http://localhost:8000/revise", {
+            const resNew = await fetch("/fastapi/revise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

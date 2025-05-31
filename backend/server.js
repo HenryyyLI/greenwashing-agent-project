@@ -8,6 +8,8 @@ import fileRoutes from "./routes/file.routes.js";
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 
+import { createProxyMiddleware } from 'http-proxy-middleware';
+
 const app = express();
 
 dotenv.config();
@@ -22,6 +24,12 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/file", fileRoutes);
 
+app.use('/fastapi', createProxyMiddleware({
+    target: 'http://127.0.0.1:8000',
+    changeOrigin: true,
+    pathRewrite: { '^/fastapi': '' },
+}));
+
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 app.get("/{*splat}", (req, res) => {
@@ -29,12 +37,12 @@ app.get("/{*splat}", (req, res) => {
 });
 
 // app.get("/", (req, res) => {
-    // root route http://localhost:5000/
-    // res.send("Hello world! "); 
+// root route http://localhost:5000/
+// res.send("Hello world! "); 
 // });
 
 app.listen(PORT, () => {
     connectToMongoDB();
     console.log(`Server Running on port ${PORT}`);
-}); 
+});
 
