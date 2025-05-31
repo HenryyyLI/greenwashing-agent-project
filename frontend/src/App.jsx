@@ -1,11 +1,11 @@
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from "./pages/Home/Home";
+import Home from "./pages/home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
-import History from "./pages/History/History";
+import History from "./pages/history/History";
 import { useAuthContext } from './context/AuthContext';
 
 function App() {
