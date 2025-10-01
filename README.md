@@ -19,9 +19,9 @@ A full-stack intelligent system designed to identify potential greenwashing in c
 
   The frontend leverages Zustand for lightweight, predictable global state—handling authentication flow, UI state, and file submission status with minimal overhead.
 
-- **🎨 Clean UI & History Management**
+- **🎨 Clean & Responsive UI**
 
-  A minimal, responsive interface built with Vite and React allows users to upload documents, view past submissions, and track analysis history with intuitive navigation.
+  Built with Tailwind CSS and ShadcnUI, the interface is responsive across devices, visually polished, and consistent in design. Smooth animations via framer-motion and instant feedback with react-hot-toast make interactions intuitive and engaging.
 
 ## 📁 Project Structure
 
